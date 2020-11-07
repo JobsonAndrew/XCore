@@ -7,7 +7,7 @@ using System.Text;
 namespace XCore {
    public class Instruction : IBinaryble {
       private bool IsImmediate = false;
-      private UInt16 ImmediateValue = 0;
+      private ushort ImmediateValue = 0;
       public enum OperationCode : byte {
          mov,
          add,
@@ -22,13 +22,13 @@ namespace XCore {
          shl
       }
       public OperationCode Operation { get; set; }
-      public UInt16 Immediate {
+      public uint Immediate {
          get {
-            return ImmediateValue;
+            return (uint)ImmediateValue;
          }
          set {
             IsImmediate = true;
-            ImmediateValue = value;
+            ImmediateValue = (ushort)value;
          }
       }
 
@@ -36,12 +36,14 @@ namespace XCore {
 
       }
 
-      public void FromBin(Stream[] bin) {
+      public void FromBin(Stream stream) {
          throw new NotImplementedException();
       }
 
-      public void ToBin(Stream[] bin) {
-         throw new NotImplementedException();
+      public void ToBin(Stream stream) {
+         BinaryWriter bw = new BinaryWriter(stream);
+
+
       }
    }
 }

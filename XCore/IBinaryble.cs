@@ -5,7 +5,7 @@ using System.Text;
 
 namespace XCore {
    public interface IBinaryble {
-      void FromBin(Stream []bin);
-      void ToBin(Stream []bin);
+      void FromBin(Stream stream);
+      void ToBin(Stream stream);
    }
 }
