@@ -2,15 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace XCore {
+namespace XCore
+{
 
-   public class Core {
-      public uint[] Register = new uint[16];
+    public class Core
+    {
+        public uint[] Register = new uint[16];
 
-      public Core() {
+        private List<Instruction> Instructions = new List<Instruction>();
 
-      }
-      
-      
-   }
+        public Core()
+        {
+
+        }
+
+        public void AddInstruction(Instruction ins)
+        {
+
+        }
+
+
+    }
 }
