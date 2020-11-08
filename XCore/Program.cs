@@ -7,6 +7,7 @@ namespace XCore
     {
         static void Main(string[] args)
         {
+            
 
         }
     }

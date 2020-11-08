@@ -68,7 +68,7 @@ namespace XCore
 
         }
 
-        public void Execute(InstructionContainer ins)
+        public void Execute(InstructionContainer ins, InstructionContainer nins)
         {
             switch (ins.Operation)
             {
@@ -109,25 +109,50 @@ namespace XCore
                     REG[ins.Rd] = REG[ins.Rd] << (int)((REG[ins.Rs] + ins.Imm) & 0x001F);
                     break;
                 case Operation.ldb:
-                    REG[ins.Rd] = ldb(ins.Rs + ins.Imm);
+                    REG[ins.Rd] = ldb(REG[ins.Rs] + ins.Imm);
                     break;
                 case Operation.lds:
-                    REG[ins.Rd] = lds(ins.Rs + ins.Imm);
+                    REG[ins.Rd] = lds(REG[ins.Rs] + ins.Imm);
                     break;
                 case Operation.ldw:
-                    REG[ins.Rd] = ldw(ins.Rs + ins.Imm);
+                    REG[ins.Rd] = ldw(REG[ins.Rs] + ins.Imm);
                     break;
                 case Operation.sdb:
-                    sdb(ins.Rd, ins.Rs + ins.Imm);
+                    sdb(REG[ins.Rd], REG[ins.Rs] + ins.Imm);
                     break;
                 case Operation.sds:
-                    sds(ins.Rd, ins.Rs + ins.Imm);
+                    sds(REG[ins.Rd], REG[ins.Rs] + ins.Imm);
                     break;
                 case Operation.sdw:
-                    sdw(ins.Rd, ins.Rs + ins.Imm);
+                    sdw(REG[ins.Rd], REG[ins.Rs] + ins.Imm);
                     break;
                 case Operation.sifl:
-
+                    if (REG[ins.Rd] < REG[ins.Rs])
+                    {
+                        if (nins.IsImm) PC += 4;
+                        else PC += 2;
+                    }
+                    break;
+                case Operation.sifle:
+                    if (REG[ins.Rd] <= REG[ins.Rs])
+                    {
+                        if (nins.IsImm) PC += 4;
+                        else PC += 2;
+                    }
+                    break;
+                case Operation.sifne:
+                    if (REG[ins.Rd] != REG[ins.Rs])
+                    {
+                        if (nins.IsImm) PC += 4;
+                        else PC += 2;
+                    }
+                    break;
+                case Operation.sife:
+                    if (REG[ins.Rd] == REG[ins.Rs])
+                    {
+                        if (nins.IsImm) PC += 4;
+                        else PC += 2;
+                    }
                     break;
                 default:
                     break;
