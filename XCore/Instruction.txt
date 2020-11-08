@@ -10,7 +10,8 @@ Instriction format:
 8,4,4,16;(32);
 
 Registers[0..15];
-R0..R13 - Is general purpuse registers 
+[R0..R12] - Is general purpuse registers 
+R13 - SP; Stack pointer
 R14 - IC; Index counter
 R15 - PC; Programm counter
 ////////////////////////////////

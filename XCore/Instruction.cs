@@ -6,7 +6,32 @@ using System.Text;
 
 namespace XCore
 {
-    public class Instruction : IBinaryble
+    public enum Operation : ushort
+    {
+        mov,
+        add,
+        adc,
+        sub,
+        mul,
+        div,
+        and,
+        or,
+        xor,
+        not,
+        shr,
+        shl,
+        ldb,
+        lds,
+        ldw,
+        stb,
+        sts,
+        stw,
+        sifl,
+        sifle,
+        sifne,
+        sife
+    }
+    public class InstructionContainer : IBinaryble
     {
         public string Label { get; set; } = "";
         public bool IsLabel
@@ -28,32 +53,7 @@ namespace XCore
         }
         private bool IsImmediate = false;
         private ushort ImmediateValue = 0;
-        public enum OperationCode : ushort
-        {
-            mov,
-            add,
-            adc,
-            sub,
-            mul,
-            div,
-            and,
-            or,
-            xor,
-            not,
-            shr,
-            shl,
-            ldb,
-            lds,
-            ldw,
-            stb,
-            sts,
-            stw,
-            sifl,
-            sifle,
-            sifne,
-            sife
-        }
-        public OperationCode Operation { get; set; }
+        public Operation Operation { get; set; }
         public uint Rd { get; set; }
         public uint Rs { get; set; }
         public uint Imm
@@ -64,11 +64,14 @@ namespace XCore
             }
             set
             {
-                IsImmediate = true;
-                ImmediateValue = (ushort)value;
+                if (value != 0)
+                {
+                    IsImmediate = true;
+                    ImmediateValue = (ushort)value;
+                }
             }
         }
-        public Instruction()
+        public InstructionContainer()
         {
 
         }
@@ -80,7 +83,7 @@ namespace XCore
             {
                 Imm = (uint)br.ReadUInt16();
             }
-            Operation = (OperationCode)((ins & ~0x8000) >> 8);
+            Operation = (Operation)((ins & ~0x8000) >> 8);
             Rd = (uint)(ins & 0x00F0) >> 4;
             Rs = (uint)(ins & 0x000F);
         }
@@ -116,10 +119,6 @@ namespace XCore
             else str += $"h\t\t{Operation} R{Rd}, R{Rs};";
             return str;
         }
-        public void FromString(string str)
-        {
-            
 
-        }
     }
 }
