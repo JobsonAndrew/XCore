@@ -57,7 +57,6 @@ namespace XCore
                 ImmediateValue = (ushort)value;
             }
         }
-
         public Instruction()
         {
 
@@ -98,20 +97,12 @@ namespace XCore
             MemoryStream ms = new MemoryStream();
             string str = "";
             this.ToBin(ms);
-            if (IsLabel) str = $"{Label}:";
-            str += $"\t\t{Address:X6}h: ";
+            if (IsLabel) str = $"@{Label}:";
+            str += $"\t\t\t\t\t\t{Address:X6}h: ";
             foreach (byte x in ms.ToArray())
-            {
                 str += $"{x:X2}";
-            }
-            if (IsImmediate)
-            {
-                str += $"h\t\t{Operation} R{Rd}, R{Rs} + {Imm};";
-            }
-            else
-            {
-                str += $"\t\t{Operation} R{Rd}, R{Rs};";
-            }
+            if (IsImmediate) str += $"h\t{Operation} R{Rd}, R{Rs} + {Imm};";
+            else str += $"h\t\t{Operation} R{Rd}, R{Rs};";
             return str;
         }
     }

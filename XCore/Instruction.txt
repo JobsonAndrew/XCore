@@ -1,0 +1,54 @@
+Instriction format:
+
+[Code operation] = [<Im> flag:1][operation:7]:8;
+
+;Registred operation
+[Code operation:8][Operand A:4][Operand B:4]:16;
+8,4,4;(16);
+;Registred operation plus <Im>
+[Code operation:8][Operand A:4][Operand B:4][<Im>:16]:32;
+8,4,4,16;(32);
+
+Registers[0..15];
+R0..R13 - Is general purpuse registers 
+R14 - IC; Index counter
+R15 - PC; Programm counter
+////////////////////////////////
+;mov ops
+    mov Rd, Rs + <Imm>;
+;math ops
+    add Rd, Rs + <Imm>; Rd <- Rd + (Rs + Imm)
+    adc Rd, Rs + <Imm>; Rd <- Rd + (Rs + Imm) + Carry
+    sub Rd, Rs + <Imm>; Rd <- Rd - (Rs + Imm)
+    mul Rd, Rs + <Imm>; Rd <- Rd * (Rs + Imm)
+    div Rd, Rs + <Imm>; Rd <- Rd / (Rs + Imm)
+;load/store
+    ldb Rd, [Rs + <Imm>];
+    lds Rd, [Rs + <Imm>];
+    ld Rd, [Rs + <Imm>];
+    stb [Rd], Rs + <Imm>;
+    sts [Rd], Rs + <Imm>;
+    st [Rd], Rs + <Imm>;
+;bitwise
+    and Rd, Rs + <Imm>; Rd <- Rd & (Rs + Imm)
+    or Rd, Rs + <Imm>; Rd <- Rd | (Rs + Imm)
+    xor Rd, Rs + <Imm>; Rd <- Rd ^ (Rs + Imm)
+    not Rd, Rs + <Imm>; Rd <- ~ (Rs + Imm)
+    shr Rd, Rs + <Imm>; Rd <- Rd >> (Rs + Imm)
+    shl Rd, Rs + <Imm>; Rd <- Rd << (Rs + Imm)
+;branch
+; <, >, <=, >=, !=, ==
+; l, _g, le, _ge, ne, eq
+    sifl Rd, Rs;
+    sifle Rd, Rs;
+    sifne Rd, Rs;
+    sife Rd, Rs;
+////////////////////////////////
+
+
+
+
+
+
+
+
