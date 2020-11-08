@@ -39,6 +39,7 @@ namespace XCore {
       public Core(int capacity = 8192) {
          Memory = new MemoryStream(capacity);
          SRAMIn = new BinaryWriter(Memory);
+         SRAMIn.Write(new byte[32]);
          SRAMOut = new BinaryReader(Memory);
       }
       public void AddInstruction(InstructionContainer ins) {
@@ -46,6 +47,14 @@ namespace XCore {
       }
       public void Reset() {
 
+      }
+      public InstructionContainer CurrentInstruction() {
+         if (Instructions.Count != 0) {
+            return Instructions[(int)REG[PC]];
+         }
+         else {
+            return new InstructionContainer();
+         }
       }
       public void Execute(InstructionContainer ins, InstructionContainer nins) {
          switch (ins.Operation) {

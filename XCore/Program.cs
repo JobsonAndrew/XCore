@@ -20,10 +20,26 @@ namespace XCore {
                }
             }
          }
-         Console.WriteLine("|===========================================END===========================================|");
+         Console.WriteLine("|========================================INSTRUCTION======================================|");
+         Console.WriteLine($"|{CPU.CurrentInstruction().ToString()}|");
+         Console.WriteLine("|===========================================SRAM==========================================|");
+         Console.Write("|");
+         for (int i = 0; i < 24; i++) {
+            Console.Write($"{i:X2} ");
+         }
+         Console.WriteLine("");
+         Console.Write("|");
+         for (int i = 0; i < 24; i++) {
+            Console.Write($"{CPU.Memory.ToArray()[i]:X2} ");
+         }
+         Console.WriteLine("");
+         Console.WriteLine("|=========================================================================================|");
 
       }
       static void Main(string[] args) {
+
+
+
          DrawRegisters();
          Console.ReadKey();
 
