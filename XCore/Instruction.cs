@@ -32,6 +32,7 @@ namespace XCore
         {
             mov,
             add,
+            adc,
             sub,
             mul,
             div,
@@ -40,7 +41,17 @@ namespace XCore
             xor,
             not,
             shr,
-            shl
+            shl,
+            ldb,
+            lds,
+            ldw,
+            stb,
+            sts,
+            stw,
+            sifl,
+            sifle,
+            sifne,
+            sife
         }
         public OperationCode Operation { get; set; }
         public uint Rd { get; set; }
@@ -104,6 +115,11 @@ namespace XCore
             if (IsImmediate) str += $"h\t{Operation} R{Rd}, R{Rs} + {Imm};";
             else str += $"h\t\t{Operation} R{Rd}, R{Rs};";
             return str;
+        }
+        public void FromString(string str)
+        {
+            
+
         }
     }
 }
