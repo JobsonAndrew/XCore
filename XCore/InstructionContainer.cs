@@ -23,9 +23,9 @@ namespace XCore
         ldb,
         lds,
         ldw,
-        stb,
-        sts,
-        stw,
+        sdb,
+        sds,
+        sdw,
         sifl,
         sifle,
         sifne,
@@ -52,6 +52,13 @@ namespace XCore
             }
         }
         private bool IsImmediate = false;
+        public bool IsImm
+        {
+            get
+            {
+                return IsImmediate;
+            }
+        }
         private ushort ImmediateValue = 0;
         public Operation Operation { get; set; }
         public uint Rd { get; set; }

@@ -34,9 +34,9 @@ R15 - PC; Programm counter
     ldb Rd, [Rs + <Imm>];
     lds Rd, [Rs + <Imm>];
     ldw Rd, [Rs + <Imm>];
-    stb [Rd], Rs + <Imm>;
-    sts [Rd], Rs + <Imm>;
-    stw [Rd], Rs + <Imm>;
+    sdb [Rd], Rs + <Imm>;
+    sds [Rd], Rs + <Imm>;
+    sdw [Rd], Rs + <Imm>;
 ;branch
 ; <, >, <=, >=, !=, ==
 ; l, _g, le, _ge, ne, eq

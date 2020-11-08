@@ -8,7 +8,7 @@ namespace XCore
 
     public class Core
     {
-        public uint[] Register = new uint[16];
+        public uint[] REG = new uint[16];
 
         public MemoryStream Memory;
         private BinaryWriter SRAMIn;
@@ -18,36 +18,37 @@ namespace XCore
         {
             get
             {
-                return Register[15];
+                return REG[15];
             }
             set
             {
-                Register[15] = value;
+                REG[15] = value;
             }
         }
         public uint IC
         {
             get
             {
-                return Register[14];
+                return REG[14];
             }
             set
             {
-                Register[14] = value;
+                REG[14] = value;
             }
         }
         public uint SP
         {
             get
             {
-                return Register[13];
+                return REG[13];
             }
             set
             {
-                Register[13] = value;
+                REG[13] = value;
             }
         }
 
+        public uint Carry { get; set; }
         private List<InstructionContainer> Instructions = new List<InstructionContainer>();
 
         public Core(int capacity = 8192)
@@ -66,7 +67,75 @@ namespace XCore
         {
 
         }
-        
+
+        public void Execute(InstructionContainer ins)
+        {
+            switch (ins.Operation)
+            {
+                case Operation.mov:
+                    REG[ins.Rd] = REG[ins.Rs] + ins.Imm;
+                    break;
+                case Operation.add:
+                    REG[ins.Rd] = REG[ins.Rd] + REG[ins.Rs] + ins.Imm;
+                    break;
+                case Operation.adc:
+                    REG[ins.Rd] = REG[ins.Rd] + REG[ins.Rs] + Carry + ins.Imm;
+                    break;
+                case Operation.sub:
+                    REG[ins.Rd] = REG[ins.Rd] - (REG[ins.Rs] + ins.Imm);
+                    break;
+                case Operation.mul:
+                    REG[ins.Rd] = REG[ins.Rd] * (REG[ins.Rs] + ins.Imm);
+                    break;
+                case Operation.div:
+                    REG[ins.Rd] = REG[ins.Rd] / (REG[ins.Rs] + ins.Imm);
+                    break;
+                case Operation.and:
+                    REG[ins.Rd] = REG[ins.Rd] & (REG[ins.Rs] + ins.Imm);
+                    break;
+                case Operation.or:
+                    REG[ins.Rd] = REG[ins.Rd] | (REG[ins.Rs] + ins.Imm);
+                    break;
+                case Operation.xor:
+                    REG[ins.Rd] = REG[ins.Rd] ^ (REG[ins.Rs] + ins.Imm);
+                    break;
+                case Operation.not:
+                    REG[ins.Rd] = ~(REG[ins.Rd] & (REG[ins.Rs] + ins.Imm));
+                    break;
+                case Operation.shr:
+                    REG[ins.Rd] = REG[ins.Rd] >> (int)((REG[ins.Rs] + ins.Imm) & 0x001F);
+                    break;
+                case Operation.shl:
+                    REG[ins.Rd] = REG[ins.Rd] << (int)((REG[ins.Rs] + ins.Imm) & 0x001F);
+                    break;
+                case Operation.ldb:
+                    REG[ins.Rd] = ldb(ins.Rs + ins.Imm);
+                    break;
+                case Operation.lds:
+                    REG[ins.Rd] = lds(ins.Rs + ins.Imm);
+                    break;
+                case Operation.ldw:
+                    REG[ins.Rd] = ldw(ins.Rs + ins.Imm);
+                    break;
+                case Operation.sdb:
+                    sdb(ins.Rd, ins.Rs + ins.Imm);
+                    break;
+                case Operation.sds:
+                    sds(ins.Rd, ins.Rs + ins.Imm);
+                    break;
+                case Operation.sdw:
+                    sdw(ins.Rd, ins.Rs + ins.Imm);
+                    break;
+                case Operation.sifl:
+
+                    break;
+                default:
+                    break;
+            }
+            if (ins.IsImm) PC += 4;
+            else PC += 2;
+        }
+
         private void sdb(uint address, uint data)
         {
             SRAMIn.Seek((int)address, SeekOrigin.Begin);
